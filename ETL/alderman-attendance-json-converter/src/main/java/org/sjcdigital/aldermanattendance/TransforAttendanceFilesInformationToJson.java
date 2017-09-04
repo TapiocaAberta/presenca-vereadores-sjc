@@ -19,8 +19,7 @@ public class TransforAttendanceFilesInformationToJson {
 		}
 		String pathToFiles = args[0];
 		Path filsPath = Paths.get(pathToFiles);
-		List<AldermanAttendance> attendance = Files.walk(filsPath)
-				.filter(p -> !Files.isDirectory(p))
+		List<AldermanAttendance> attendance = Files.walk(filsPath).filter(p -> !Files.isDirectory(p))
 				.map(f -> AttendanceParser.getParserForType(f).parse(f)).collect(Collectors.toList());
 		// TODO: After implementing the parsers we must export it to JSON to be
 		// used in the web page

@@ -2,7 +2,7 @@ package org.sjcdigital.aldermanattendance.parser;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.sjcdigital.aldermanattendance.model.AldermanAttendance;
@@ -23,11 +23,12 @@ public class PDFAttendanceParser implements AttendanceParser {
 	@Override
 	public AldermanAttendance parse(Path targetFile) {
 		String pdfTextContent = getPdfContent(targetFile.toString());
-		Map<String, String> attendance = retrieveAttendance(pdfTextContent);
-		String session = retrieveSessionType(pdfTextContent);
-		Date date = retrieveSessionDate(pdfTextContent);
-		return new AldermanAttendance(session, date, attendance);
+		System.out.println(pdfTextContent);
+		System.out.println("--");
+		AldermanAttendance aldermanAttendance = retrieveAldermanAttendance(pdfTextContent);
+		return aldermanAttendance;
 	}
+
 
 	private String getPdfContent(String pdfFile) {
 		try {
@@ -46,19 +47,28 @@ public class PDFAttendanceParser implements AttendanceParser {
 		}
 	}
 
-	// TODO
-	private String retrieveSessionType(String pdfTextContent) {
-		return null;
+	// if we simply extract the text from XLS this method could be reused for XLS as well.
+	private AldermanAttendance retrieveAldermanAttendance(String pdfTextContent) {
+		AldermanAttendance aldermanAttendance;
+		Map<String, String> attendance = new HashMap<>();
+		String legislature = "", session = "", date = "";
+		for (String line : pdfTextContent.split("\\n")) {
+			for (String aldermanName : ConstantsData.aldermanNames) {
+				if(line.startsWith(aldermanName)) {
+					String attendanceStr = line.substring(aldermanName.length()).trim().substring(0, 3);
+					attendance.put(aldermanName, attendanceStr);
+				}
+			}
+			if(line.contains("Legislatura")) {
+				String[] sessionData = line.split(" - ");
+				legislature = sessionData[0];
+				session = sessionData[1];
+				date = sessionData[2];
+			}
+			
+		}
+		aldermanAttendance = new AldermanAttendance(session, date, legislature, attendance);
+		System.out.println(aldermanAttendance);
+		return aldermanAttendance;
 	}
-
-	// TODO
-	private Map<String, String> retrieveAttendance(String pdfTextContent) {
-		return null;
-	}
-
-	// TODO
-	private Date retrieveSessionDate(String pdfTextContent) {
-		return null;
-	}
-
 }

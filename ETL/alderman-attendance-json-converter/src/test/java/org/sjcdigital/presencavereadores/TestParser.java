@@ -18,5 +18,5 @@ public class TestParser {
 		assertTrue(pdf instanceof PDFAttendanceParser);
 		assertTrue(xls instanceof XLSAttendanceParser);
 	}
-
+	
 }

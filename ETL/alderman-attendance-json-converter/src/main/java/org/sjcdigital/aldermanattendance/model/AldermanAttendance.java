@@ -1,22 +1,27 @@
 package org.sjcdigital.aldermanattendance.model;
 
-import java.util.Date;
 import java.util.Map;
 
 public class AldermanAttendance {
 
 	private String session;
-	private Date date;
+	private String date;
+	private String legislature;
 	private Map<String, String> attendance;
 	
 	public AldermanAttendance() {
 	}
 
-	public AldermanAttendance(String session, Date date, Map<String, String> attendance) {
+
+	public AldermanAttendance(String session, String date, String legislature, Map<String, String> attendance) {
+		super();
 		this.session = session;
 		this.date = date;
+		this.legislature = legislature;
 		this.attendance = attendance;
 	}
+
+
 
 	public String getSession() {
 		return session;
@@ -26,11 +31,11 @@ public class AldermanAttendance {
 		this.session = session;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -42,9 +47,18 @@ public class AldermanAttendance {
 		this.attendance = attendance;
 	}
 
+	public String getLegislature() {
+		return legislature;
+	}
+
+	public void setLegislature(String legislature) {
+		this.legislature = legislature;
+	}
+
 	@Override
 	public String toString() {
-		return "AldermanAttendance [session=" + session + ", date=" + date + ", attendance=" + attendance + "]";
+		return "AldermanAttendance [session=" + session + ", date=" + date + ", legislature=" + legislature
+				+ ", attendance=" + attendance + "]";
 	}
 
 	@Override
@@ -53,6 +67,7 @@ public class AldermanAttendance {
 		int result = 1;
 		result = prime * result + ((attendance == null) ? 0 : attendance.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result + ((legislature == null) ? 0 : legislature.hashCode());
 		result = prime * result + ((session == null) ? 0 : session.hashCode());
 		return result;
 	}
@@ -75,6 +90,11 @@ public class AldermanAttendance {
 			if (other.date != null)
 				return false;
 		} else if (!date.equals(other.date))
+			return false;
+		if (legislature == null) {
+			if (other.legislature != null)
+				return false;
+		} else if (!legislature.equals(other.legislature))
 			return false;
 		if (session == null) {
 			if (other.session != null)
