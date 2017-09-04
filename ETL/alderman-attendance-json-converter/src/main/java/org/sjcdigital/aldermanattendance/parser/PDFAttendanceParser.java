@@ -61,7 +61,7 @@ public class PDFAttendanceParser implements AttendanceParser {
 			}
 			if(line.contains("Legislatura")) {
 				String[] sessionData = line.split(" - ");
-				legislature = sessionData[0];
+				legislature = sessionData[0].replaceAll("\\s+$","");
 				session = sessionData[1];
 				date = sessionData[2];
 			}
