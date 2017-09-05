@@ -1,0 +1,41 @@
+package org.sjcdigital.aldermanattendance.parser;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
+import org.sjcdigital.aldermanattendance.model.AldermanAttendance;
+
+public class ParserUtils {
+	
+	public static HashSet<String> aldermans = new HashSet<>();
+	
+	public static AldermanAttendance fromText(String text) {
+		AldermanAttendance aldermanAttendance;
+		Map<String, String> attendance = new HashMap<>();
+		String legislature = "", session = "", date = "";
+		text = text.replaceAll("\\\t", "");
+		for (String line : text.split("\\n")) {
+			for (String aldermanName : ConstantsData.aldermanNames) {
+				if (line.startsWith(aldermanName)) {
+					String attendanceStr = line.substring(aldermanName.length()).trim().substring(0, 3);
+					attendance.put(aldermanName, attendanceStr);
+				}
+			}
+			if (line.contains("Legislatura")) {
+				String[] sessionData = line.split(" - ");
+				legislature = sessionData[0].replaceAll("\\s+$", "");
+				session = sessionData[1];
+				date = sessionData[2];
+			}
+			if(line.contains("SIM")) {
+				int SIM = line.indexOf("SIM");
+				if (SIM < 40) {
+					aldermans.add("\"" + line.substring(0, SIM).replaceAll("\\s+$", "") + "\",");
+				}
+			}
+		}
+		aldermanAttendance = new AldermanAttendance(session, date, legislature, attendance);
+		return aldermanAttendance;
+	}
+}

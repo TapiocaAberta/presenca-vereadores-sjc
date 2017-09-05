@@ -13,12 +13,12 @@ import org.sjcdigital.aldermanattendance.model.AldermanAttendance;
  */
 public interface AttendanceParser {
 
+	final static AttendanceParser ANYParser = new AnyDocumentAttendanceParser();
 	final static AttendanceParser PDFParser = new PDFAttendanceParser();
-	final static AttendanceParser XLSParser = new XLSAttendanceParser();
 
 	/**
 	 * Receives a file and return the alderman absence/presence on the given
-	 * file session
+	 * file session. Keeping for history because we will likely use the ANYParser for all files
 	 * 
 	 * @param targetFile
 	 * @return
@@ -29,9 +29,8 @@ public interface AttendanceParser {
 		String pathStr = path.toString();
 		if (pathStr.toLowerCase().endsWith("pdf"))
 			return PDFParser;
-		if (pathStr.toLowerCase().endsWith("xls"))
-			return XLSParser;
-		throw new IllegalArgumentException("Could not find a suitable parser for file: " + path);
+		else
+			return ANYParser;
 	}
 
 }

@@ -1,7 +1,7 @@
 package org.sjcdigital.presencavereadores;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;
@@ -9,18 +9,18 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 import org.sjcdigital.aldermanattendance.model.AldermanAttendance;
+import org.sjcdigital.aldermanattendance.parser.AnyDocumentAttendanceParser;
 import org.sjcdigital.aldermanattendance.parser.AttendanceParser;
 import org.sjcdigital.aldermanattendance.parser.PDFAttendanceParser;
-import org.sjcdigital.aldermanattendance.parser.XLSAttendanceParser;
 
 public class TestParser {
 
 	@Test
 	public void testFactory() {
 		AttendanceParser pdf = AttendanceParser.getParserForType(Paths.get("something.pdf"));
-		AttendanceParser xls = AttendanceParser.getParserForType(Paths.get("something.xls"));
+		AttendanceParser any = AttendanceParser.getParserForType(Paths.get("something.unknown"));
 		assertTrue(pdf instanceof PDFAttendanceParser);
-		assertTrue(xls instanceof XLSAttendanceParser);
+		assertTrue(any instanceof AnyDocumentAttendanceParser);
 	}
 	
 	@Test
