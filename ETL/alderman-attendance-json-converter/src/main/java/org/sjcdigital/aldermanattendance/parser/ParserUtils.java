@@ -28,12 +28,6 @@ public class ParserUtils {
 				session = sessionData[1];
 				date = sessionData[2];
 			}
-			if(line.contains("SIM")) {
-				int SIM = line.indexOf("SIM");
-				if (SIM < 40) {
-					aldermans.add("\"" + line.substring(0, SIM).replaceAll("\\s+$", "") + "\",");
-				}
-			}
 		}
 		aldermanAttendance = new AldermanAttendance(session, date, legislature, attendance);
 		return aldermanAttendance;

@@ -12,7 +12,7 @@ import org.sjcdigital.aldermanattendance.model.AldermanAttendance;
 import org.sjcdigital.aldermanattendance.parser.AnyDocumentAttendanceParser;
 import org.sjcdigital.aldermanattendance.parser.ParserUtils;
 
-public class TransforAttendanceFilesInformationToJson {
+public class TransformAttendanceFilesInformationToJson {
 
 	public static void main(String[] args) throws IOException {
 		if (args.length == 0) {
