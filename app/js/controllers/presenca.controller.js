@@ -9,7 +9,7 @@
         $scope.showHowItWorks = function() {
             $('#modalFuncionamento').modal();
         };
-
+        $scope.legislaturas = ["1", "2"];
      
     }
     presencaController.$inject = ['$scope', 'PresencaService'];
