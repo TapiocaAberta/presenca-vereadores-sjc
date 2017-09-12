@@ -64,30 +64,41 @@
 			<!-- SELECT -->
 			<div class="row">
 				
-                        <div class="col-lg-6">
+                        <div class="col-xs-6">
 						    <div class="input-group">
 							    <span class="input-group-addon" id="legislaturaLbl">Legislatura
 							    </span> <select class="form-control input-lg text-center"
                                     id="cmbLegislatura"
 								    aria-describedby="legislaturaLbl" ng-model="legislatura"
-								    ng-disabled="!legislaturas" ng-change="loadSessions()"
+								    ng-disabled="!legislaturas" ng-change="carregaSessoes()"
 								    ng-options="l for l in legislaturas"></select>
 						    </div>
 						</div>
-						<div class="col-lg-6">
+						<div class="col-xs-6">
 						    <div class="input-group">
 							    <span class="input-group-addon" id="sessaoLbl">Sessão
 							    </span> <select class="form-control input-lg text-center"
                                     id="cmbSessao"
 								    aria-describedby="sessaoLbl" ng-model="sessao"
-								    ng-disabled="!legislatura" ng-change="loadPresence()"
-								    ng-options="s for s in sessoes"></select>
+								    ng-disabled="!legislatura" ng-change="carregaInfoSessao()"
+								    ng-options="s as (s.session + ' ( ' + s.date + ' )') for s in sessoes"></select>
 						    </div>
 						</div>
 			</div>
 			<!-- ENDSELECT-->
             <!-- DATA -->
-		<!-- add here the table with the session data -->
+                <hr />
+		        <div class="row" ng-show="infoSessao">
+		            <h3> {{ infoSessao.legislature }}, {{infoSessao.session}}, {{infoSessao.date}} </h3>
+		            <div class="table-responsive">
+		                <table class="table">
+                          <tr ng-repeat="(vereador, presenca)  in infoSessao.attendance" ng-class="classeParaPresenca(presenca)">
+                            <td>{{ vereador }}</td>
+                            <td>{{ presenca }}</td>
+                          </tr>
+                        </table>
+		            </div>
+		         </div>
             <!-- ENDDATA -->
 		</div>
 	</section>
