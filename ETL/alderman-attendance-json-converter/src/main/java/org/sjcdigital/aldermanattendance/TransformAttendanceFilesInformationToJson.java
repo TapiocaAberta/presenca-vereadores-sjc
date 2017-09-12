@@ -26,7 +26,7 @@ public class TransformAttendanceFilesInformationToJson {
 				.map(anyDocumentParser::parse).filter(a -> a != null).collect(Collectors.toList());
 		StringBuffer sbJson = new StringBuffer();
 		sbJson.append("{");
-		sbJson.append("\"sessionAttendance: \": [");
+		sbJson.append("\"sessionAttendance\": [");
 		for (AldermanAttendance a : attendance) {
 			sbJson.append("{");
 			sbJson.append("\"session\": \"");
@@ -39,7 +39,7 @@ public class TransformAttendanceFilesInformationToJson {
 			sbJson.append(a.getDate());
 			sbJson.append("\", ");
 			
-			sbJson.append("\"attendance: \": {");
+			sbJson.append("\"attendance\": {");
 			a.getAttendance().forEach((name, presence) -> {
 				sbJson.append("\"");
 				sbJson.append(name);
