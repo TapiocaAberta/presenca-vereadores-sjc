@@ -28,6 +28,11 @@
         
         presencaService.loadData(function() {
             $scope.legislaturas = presencaService.todasLegislaturas();
+            //carrega dados iniciais
+            $scope.legislatura = $scope.legislaturas[$scope.legislaturas.length - 1];
+            $scope.carregaSessoes();
+            $scope.sessao = $scope.sessoes[$scope.sessoes.length - 1];
+            $scope.carregaInfoSessao();
         });
         
      
