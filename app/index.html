@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR" ng-app="PresencaApp">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description"
+	content="Presença dos vereadores em sessões da Câmara Municipal">
+<meta name="author" content="SJC Digital">
+<link rel="icon" href="../../favicon.ico">
+
+<title>Presença dos vereadores em sessões da Câmara Municipal</title>
+
+<!-- build:css css/index.min.css -->
+<link rel="stylesheet" type="text/css" href="./css/index.css">
+<link rel="stylesheet" type="text/css" href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
+<!-- endbuild -->
+</head>
+
+<body ng-controller="PresencaController" id="page-top" data-spy="scroll"
+	data-target=".navbar-fixed-top">
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header page-scroll">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-ex1-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand page-scroll" href="#">Presença dos vereadores</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul class="nav navbar-nav">
+					<li><a class="page-scroll" href="#funcionamento"
+						ng-click="showHowItWorks()">Como Funciona?</a></li>
+					<li><a class="page-scroll" href="#sobre"
+						ng-click="showAbout()">Sobre</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container -->
+	</nav>
+
+	<!-- MAIN CONTENT -->
+	<section>
+		<div class="container">
+			<!-- TITLE -->
+			<div class="row">
+				<div class="col-lg-12">
+					<h1>Presença dos vereadores</h1>
+				<p class="lead">
+					Presença dos vereadores em sessões da Câmara Municipal. Dados obtidos no <a href="http://www.camarasjc.sp.gov.br/portal-da-transparencia/presenca-de-vereadores.php">site da câmara</a>.
+				</p>
+                </div>
+			</div>
+            <hr />
+			<!-- ENDTITLE -->
+			<!-- SELECT -->
+			<div class="row">
+                <div class="col-lg-1"></div>
+				<div class="col-lg-10">
+                        <div class="well">
+						<div class="input-group">
+							<span class="input-group-addon" id="legislaturaLbl">Legislatura
+							</span> <select class="form-control input-lg text-center"
+                                id="cmbLegislatura"
+								aria-describedby="legislaturaLbl" ng-model="legislatura"
+								ng-disabled="!legislaturas" ng-change="loadSessions()"
+								ng-options="l for l in legislaturas"></select>
+						</div></div>
+				</div>
+                <div class="col-lg-1"> </div>
+			</div>
+			<!-- ENDSELECT-->
+            <!-- DATA -->
+		<!-- add here the table with the session data -->
+            <!-- ENDDATA -->
+		</div>
+	</section>
+	<!-- END MAIN CONTENT -->
+
+
+	<!-- modal funcionamento -->
+	<div class="modal fade" tabindex="-1" role="dialog"
+		id="modalFuncionamento">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4>Como funciona?</h4>
+				</div>
+				<div class="modal-body">
+					<p>DESCREVER COMO FUNCIONA ESSA APP</p>
+				</div>
+			</div>
+			<!-- /.modal-sobre-content -->
+		</div>
+		<!-- /.modal-sobre-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<!-- modal sobre -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalSobre">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4>Sobre</h4>
+				</div>
+				<div class="modal-body">
+					<p>
+						<strong> Desenvolvido por <a
+							href="http://transparenciasjc.github.io/">Dados Abertos SJC</a>.
+							Curta nossa <a
+							href="https://www.facebook.com/pages/Dados-Abertos-SJC/436813019726917?ref=hl">página</a>.
+						</strong>
+					</p>
+					<img src="images/dados_abertos_sjc.jpg" />
+				</div>
+			</div>
+			<!-- /.modal-sobre-content -->
+		</div>
+		<!-- /.modal-sobre-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<footer class="footer">
+		<div class="container">
+			<p class="text-muted">
+				Por <a
+					href="https://www.facebook.com/pages/Dados-Abertos-SJC/436813019726917">Dados
+					Abertos SJC</a>
+			</p>
+		</div>
+	</footer>
+	<!-- build:js js/index.min.js -->
+	<script src="./bower_components/angular/angular.min.js"></script>
+	<script src="./bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="./js/app.js"></script>
+    <script src="./js/services/presenca.service.js"></script>
+    <script src="./js/controllers/presenca.controller.js"></script>
+	<!-- endbuild -->
+</body>
+</html>

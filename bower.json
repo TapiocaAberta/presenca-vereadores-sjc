@@ -1,0 +1,23 @@
+{
+  "name": "presenca-vereadores-sjc",
+  "description": "Presença dos vereadores em sessões da Câmara Municipal da cidade",
+  "main": "index.js",
+  "authors": [
+    "William Siqueira"
+  ],
+  "license": "BSD",
+  "homepage": "https://github.com/sjcdigital/presenca-vereadores-sjc",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.3",
+    "angular": "^1.5.3",
+    "bootstrap": "^3.3.6"
+  }
+}
