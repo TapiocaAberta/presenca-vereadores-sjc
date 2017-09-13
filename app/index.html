@@ -91,7 +91,13 @@
 		        <div class="row" ng-show="infoSessao">
 		            <h3> {{ infoSessao.legislature }}, {{infoSessao.session}}, {{infoSessao.date}} </h3>
 		            <div class="table-responsive">
-		                <table class="table">
+		                <table class="table table-bordered table-stripped">
+		                    <thead>
+		                        <tr>
+		                            <th>Vereador</th>
+		                            <th>Presença?</th>
+		                        </tr>
+		                    </thead>
                           <tr ng-repeat="(vereador, presenca)  in infoSessao.attendance" ng-class="classeParaPresenca(presenca)">
                             <td>{{ vereador }}</td>
                             <td>{{ presenca }}</td>
@@ -99,6 +105,24 @@
                         </table>
 		            </div>
 		         </div>
+     		     <div class="row" ng-show="faltas">
+		            <h3> Total Faltas </h3>
+		            <div class="table">
+		                <table class="table table-bordered table-stripped">
+		                 <thead>
+		                        <tr>
+		                            <th>Vereador</th>
+		                            <th>Total Faltas</th>
+		                        </tr>
+		                    </thead>
+                          <tr ng-repeat="(vereador, totalFaltas)  in faltas">
+                            <td>{{ vereador }}</td>
+                            <td>{{ totalFaltas }}</td>
+                          </tr>
+                        </table>
+		            </div>
+		         </div>
+		         
             <!-- ENDDATA -->
 		</div>
 	</section>

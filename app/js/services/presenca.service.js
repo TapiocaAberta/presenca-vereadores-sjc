@@ -4,6 +4,7 @@
         legislaturas = [];
         dadosSessoes = [];
         sessoes = {}
+        contagemFaltas = {}
         
         function loadData(success) {
             $http.get('./data/sessionAttendance.json').then(function(response) {
@@ -16,6 +17,16 @@
                         sessoes[legislatura] = [];
                     }
                     sessoes[legislatura].push(sessao)
+                    
+                    $.each(sessao.attendance, function(k, v) {
+                        if(!contagemFaltas[k]) {
+                            contagemFaltas[k] = 0;
+                        }
+                        if(v === 'NÃO') {
+                            contagemFaltas[k] += 1;
+                        }
+                    });
+                    
                 }
                 // TODO: sort sessions correctly
                 for(var i = 0; i < legislatura.length; i++){
@@ -48,12 +59,16 @@
             return infoSessao;
         }
         
+        function faltas() {
+            return contagemFaltas;
+        }
+        
         return {
             loadData: loadData,
             todasLegislaturas: todasLegislaturas,
             sessaoParaLegislatura: sessaoParaLegislatura,
-            infoSessao: infoSessao
-            
+            infoSessao: infoSessao,
+            faltas: faltas
         }
     }
 
