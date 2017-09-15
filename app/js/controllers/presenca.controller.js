@@ -16,6 +16,7 @@
         }
         
         $scope.carregaInfoSessao = function() {
+                $("#tabelaSessao").fadeOut(50).fadeIn(500);
                 $scope.infoSessao = presencaService.infoSessao($scope.sessao.legislature, $scope.sessao.session)
         }
         

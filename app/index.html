@@ -13,7 +13,8 @@
 
 <!-- build:css css/index.min.css -->
 <link rel="stylesheet" type="text/css" href="./css/index.css">
-<link rel="stylesheet" type="text/css" href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
 <!-- endbuild -->
 </head>
 
@@ -30,7 +31,8 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand page-scroll" href="#">Presença dos vereadores</a>
+				<a class="navbar-brand page-scroll" href="#">Presença dos
+					vereadores</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -49,85 +51,102 @@
 
 	<!-- MAIN CONTENT -->
 	<section>
+
 		<div class="container">
 			<!-- TITLE -->
 			<div class="row">
 				<div class="col-lg-12">
 					<h1>Presença dos vereadores</h1>
-				<p class="lead">
-					Presença dos vereadores em sessões da Câmara Municipal. Dados obtidos no <a href="http://www.camarasjc.sp.gov.br/portal-da-transparencia/presenca-de-vereadores.php">site da câmara</a>.
-				</p>
-                </div>
+					<p class="lead">
+						Presença dos vereadores em sessões da Câmara Municipal. Dados
+						obtidos no <a
+							href="http://www.camarasjc.sp.gov.br/portal-da-transparencia/presenca-de-vereadores.php">site
+							da câmara</a>.
+					</p>
+				</div>
 			</div>
-            <hr />
+			<hr />
 			<!-- ENDTITLE -->
-			<!-- SELECT -->
 			<div class="row">
-				
-                        <div class="col-xs-6">
-						    <div class="input-group">
-							    <span class="input-group-addon" id="legislaturaLbl">Legislatura
-							    </span> <select class="form-control input-lg text-center"
-                                    id="cmbLegislatura"
-								    aria-describedby="legislaturaLbl" ng-model="legislatura"
-								    ng-disabled="!legislaturas" ng-change="carregaSessoes()"
-								    ng-options="l for l in legislaturas"></select>
-						    </div>
+				<ul class="nav nav-pills nav-justified">
+					<li class="active"><a href="#resumo" data-toggle="tab">Faltas</a></li>
+					<li><a href="#sessoes" data-toggle="tab">Sessões</a></li>
+				</ul>
+			</div>
+			<br />
+			<div class="tab-content">
+				<!--  TAB RESUMO -->
+				<div id="resumo" class="tab-pane fade in active">
+					<div class="row" ng-show="faltas">
+						<div class="table">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Vereador</th>
+										<th>Total Faltas</th>
+									</tr>
+								</thead>
+								<tr ng-repeat="(vereador, totalFaltas)  in faltas">
+									<td>{{ vereador }}</td>
+									<td>{{ totalFaltas }}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!--  END TAB RESUMO -->
+
+				<!-- TAB SESSÔES -->
+				<div id="sessoes" class="tab-pane fade">
+					<!-- SELECT -->
+					<div class="row">
+						<div class="col-xs-6">
+							<div class="input-group">
+								<span class="input-group-addon" id="legislaturaLbl">Legislatura
+								</span> <select class="form-control input-lg text-center"
+									id="cmbLegislatura" aria-describedby="legislaturaLbl"
+									ng-model="legislatura" ng-disabled="!legislaturas"
+									ng-change="carregaSessoes()"
+									ng-options="l for l in legislaturas"></select>
+							</div>
 						</div>
 						<div class="col-xs-6">
-						    <div class="input-group">
-							    <span class="input-group-addon" id="sessaoLbl">Sessão
-							    </span> <select class="form-control input-lg text-center"
-                                    id="cmbSessao"
-								    aria-describedby="sessaoLbl" ng-model="sessao"
-								    ng-disabled="!legislatura" ng-change="carregaInfoSessao()"
-								    ng-options="s as (s.session + ' ( ' + s.date + ' )') for s in sessoes"></select>
-						    </div>
+							<div class="input-group">
+								<span class="input-group-addon" id="sessaoLbl">Sessão </span> <select
+									class="form-control input-lg text-center" id="cmbSessao"
+									aria-describedby="sessaoLbl" ng-model="sessao"
+									ng-disabled="!legislatura" ng-change="carregaInfoSessao()"
+									ng-options="s as (s.session + ' ( ' + s.date + ' )') for s in sessoes | orderBy: 'session'"></select>
+							</div>
 						</div>
+					</div>
+							<hr />
+					<!-- ENDSELECT-->
+					<div class="row" ng-show="infoSessao">
+						<h4>{{ infoSessao.legislature }}, {{infoSessao.session}},
+							{{infoSessao.date}}</h4>  
+						<div class="table-responsive">
+							<table class="table table-bordered table-stripped" id="tabelaSessao">
+								<thead>
+									<tr>
+										<th>Vereador</th>
+										<th>Presença?</th>
+									</tr>
+								</thead>
+								<tr ng-repeat="(vereador, presenca)  in infoSessao.attendance"
+									ng-class="classeParaPresenca(presenca)">
+									<td>{{ vereador }}</td>
+									<td>{{ presenca }}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- END TAB SESSÔES -->
 			</div>
-			<!-- ENDSELECT-->
-            <!-- DATA -->
-                <hr />
-		        <div class="row" ng-show="infoSessao">
-		            <h3> {{ infoSessao.legislature }}, {{infoSessao.session}}, {{infoSessao.date}} </h3>
-		            <div class="table-responsive">
-		                <table class="table table-bordered table-stripped">
-		                    <thead>
-		                        <tr>
-		                            <th>Vereador</th>
-		                            <th>Presença?</th>
-		                        </tr>
-		                    </thead>
-                          <tr ng-repeat="(vereador, presenca)  in infoSessao.attendance" ng-class="classeParaPresenca(presenca)">
-                            <td>{{ vereador }}</td>
-                            <td>{{ presenca }}</td>
-                          </tr>
-                        </table>
-		            </div>
-		         </div>
-     		     <div class="row" ng-show="faltas">
-		            <h3> Total Faltas </h3>
-		            <div class="table">
-		                <table class="table table-bordered table-stripped">
-		                 <thead>
-		                        <tr>
-		                            <th>Vereador</th>
-		                            <th>Total Faltas</th>
-		                        </tr>
-		                    </thead>
-                          <tr ng-repeat="(vereador, totalFaltas)  in faltas">
-                            <td>{{ vereador }}</td>
-                            <td>{{ totalFaltas }}</td>
-                          </tr>
-                        </table>
-		            </div>
-		         </div>
-		         
-            <!-- ENDDATA -->
 		</div>
 	</section>
 	<!-- END MAIN CONTENT -->
-
 
 	<!-- modal funcionamento -->
 	<div class="modal fade" tabindex="-1" role="dialog"
@@ -193,8 +212,8 @@
 	<script src="./bower_components/jquery/dist/jquery.min.js"></script>
 	<script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="./js/app.js"></script>
-    <script src="./js/services/presenca.service.js"></script>
-    <script src="./js/controllers/presenca.controller.js"></script>
+	<script src="./js/services/presenca.service.js"></script>
+	<script src="./js/controllers/presenca.controller.js"></script>
 	<!-- endbuild -->
 </body>
 </html>
