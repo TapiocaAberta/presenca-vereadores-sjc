@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR" ng-app="PresencaApp">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description"
+	content="Presença dos vereadores em sessões da Câmara Municipal">
+<meta name="author" content="SJC Digital">
+<link rel="icon" href="../../favicon.ico">
+
+<title>Presença dos vereadores em sessões da Câmara Municipal</title>
+
+<link rel="stylesheet" href="css/index.min.css"/>
+</head>
+
+<body ng-controller="PresencaController" id="page-top" data-spy="scroll"
+	data-target=".navbar-fixed-top">
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header page-scroll">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-ex1-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand page-scroll" href="#">Presença dos
+					vereadores</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul class="nav navbar-nav">
+					<li><a class="page-scroll" href="#funcionamento"
+						ng-click="showHowItWorks()">Como Funciona?</a></li>
+					<li><a class="page-scroll" href="#sobre"
+						ng-click="showAbout()">Sobre</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container -->
+	</nav>
+
+	<!-- MAIN CONTENT -->
+	<section>
+
+		<div class="container">
+			<!-- TITLE -->
+			<div class="row">
+				<div class="col-lg-12">
+					<h1>Presença dos vereadores</h1>
+					<p class="lead">
+						Presença dos vereadores em sessões da Câmara Municipal. Dados
+						obtidos no <a
+							href="http://www.camarasjc.sp.gov.br/portal-da-transparencia/presenca-de-vereadores.php">site
+							da câmara</a>.
+					</p>
+				</div>
+			</div>
+			<hr />
+			<!-- ENDTITLE -->
+			<div class="row">
+				<ul class="nav nav-pills nav-justified">
+					<li class="active"><a href="#resumo" data-toggle="tab">Faltas</a></li>
+					<li><a href="#sessoes" data-toggle="tab">Sessões</a></li>
+				</ul>
+			</div>
+			<br />
+			<div class="tab-content">
+				<!--  TAB RESUMO -->
+				<div id="resumo" class="tab-pane fade in active">
+					<div class="row" ng-show="faltas">
+						<div class="table">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Vereador</th>
+										<th>Total Faltas</th>
+									</tr>
+								</thead>
+								<tr ng-repeat="(vereador, totalFaltas)  in faltas">
+									<td>{{ vereador }}</td>
+									<td>{{ totalFaltas }}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!--  END TAB RESUMO -->
+
+				<!-- TAB SESSÔES -->
+				<div id="sessoes" class="tab-pane fade">
+					<!-- SELECT -->
+					<div class="row">
+						<div class="col-xs-6">
+							<div class="input-group">
+								<span class="input-group-addon" id="legislaturaLbl">Legislatura
+								</span> <select class="form-control input-lg text-center"
+									id="cmbLegislatura" aria-describedby="legislaturaLbl"
+									ng-model="legislatura" ng-disabled="!legislaturas"
+									ng-change="carregaSessoes()"
+									ng-options="l for l in legislaturas"></select>
+							</div>
+						</div>
+						<div class="col-xs-6">
+							<div class="input-group">
+								<span class="input-group-addon" id="sessaoLbl">Sessão </span> <select
+									class="form-control input-lg text-center" id="cmbSessao"
+									aria-describedby="sessaoLbl" ng-model="sessao"
+									ng-disabled="!legislatura" ng-change="carregaInfoSessao()"
+									ng-options="s as (s.session + ' ( ' + s.date + ' )') for s in sessoes | orderBy: 'session'"></select>
+							</div>
+						</div>
+					</div>
+							<hr />
+					<!-- ENDSELECT-->
+					<div class="row" ng-show="infoSessao">
+						<h4>{{ infoSessao.legislature }}, {{infoSessao.session}},
+							{{infoSessao.date}}</h4>  
+						<div class="table-responsive">
+							<table class="table table-bordered table-stripped" id="tabelaSessao">
+								<thead>
+									<tr>
+										<th>Vereador</th>
+										<th>Presença?</th>
+									</tr>
+								</thead>
+								<tr ng-repeat="(vereador, presenca)  in infoSessao.attendance"
+									ng-class="classeParaPresenca(presenca)">
+									<td>{{ vereador }}</td>
+									<td>{{ presenca }}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- END TAB SESSÔES -->
+			</div>
+		</div>
+	</section>
+	<!-- END MAIN CONTENT -->
+
+	<!-- modal funcionamento -->
+	<div class="modal fade" tabindex="-1" role="dialog"
+		id="modalFuncionamento">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4>Como funciona?</h4>
+				</div>
+				<div class="modal-body">
+					<p>DESCREVER COMO FUNCIONA ESSA APP</p>
+				</div>
+			</div>
+			<!-- /.modal-sobre-content -->
+		</div>
+		<!-- /.modal-sobre-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<!-- modal sobre -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalSobre">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4>Sobre</h4>
+				</div>
+				<div class="modal-body">
+					<p>
+						<strong> Desenvolvido por <a
+							href="http://transparenciasjc.github.io/">Dados Abertos SJC</a>.
+							Curta nossa <a
+							href="https://www.facebook.com/pages/Dados-Abertos-SJC/436813019726917?ref=hl">página</a>.
+						</strong>
+					</p>
+					<img src="images/dados_abertos_sjc.jpg" />
+				</div>
+			</div>
+			<!-- /.modal-sobre-content -->
+		</div>
+		<!-- /.modal-sobre-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<footer class="footer">
+		<div class="container">
+			<p class="text-muted">
+				Por <a
+					href="https://www.facebook.com/pages/Dados-Abertos-SJC/436813019726917">Dados
+					Abertos SJC</a>
+			</p>
+		</div>
+	</footer>
+	<script src="js/index.min.js"></script>
+</body>
+</html>
