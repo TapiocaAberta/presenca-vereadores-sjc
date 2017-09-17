@@ -52,16 +52,8 @@
         });
         
         $scope.fotoVereador = function(nome) {
-            var img = './images/' + nome.replace(/ /g,"_").toLowerCase() + '.jpg'; 
-            var request = new XMLHttpRequest();
-            request.open('GET', img, false);
-            request.send(); 
-            if (request.status === 404) {
-                img = './images/politico_sem_foto.png';
-            }
-            return img;
+            return img = './images/' + nome.replace(/ /g,"_").toLowerCase() + '.jpg'; 
         }
-     
     }
     presencaController.$inject = ['$scope', 'PresencaService'];
     
