@@ -105,7 +105,7 @@
 						    <div ng-repeat="p in presencas" class="row">
                                 <div ng-repeat="(vereador, presenca) in p" class="col-lg-{{12 / totalPorLinha}}">
                                     <div class="thumbnail presenca-sessao" ng-class="classeParaPresenca(presenca)">
-					                    <img class="img-circle" src='{{fotoVereador(vereador)}}' width='100%'  onError="this.onerror=null;this.src='./images/politico_sem_foto.png'" / >
+					                    <img class="img-circle" ng-src='{{fotoVereador(vereador)}}' width='100%'  onError="this.onerror=null;this.src='./images/politico_sem_foto.png'" / >
                                         <div class="caption">
                                             <p>{{vereador}}: {{ presenca }}</p>
                                         </div>
