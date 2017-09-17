@@ -65,35 +65,14 @@
 			<!-- ENDTITLE -->
 			<div class="row">
 				<ul class="nav nav-pills nav-justified">
-					<li class="active"><a href="#resumo" data-toggle="tab">Faltas</a></li>
-					<li><a href="#sessoes" data-toggle="tab">Sessões</a></li>
+					<li class="active" ><a href="#sessoes" data-toggle="tab">Sessões</a></li>
+					<li><a href="#resumo" data-toggle="tab">Ranking de faltas</a></li>
 				</ul>
 			</div>
 			<br />
 			<div class="tab-content">
-				<!--  TAB RESUMO -->
-				<div id="resumo" class="tab-pane fade in active">
-					<div class="row" ng-show="faltas">
-						<div class="table">
-							<table class="table table-striped">
-								<thead>
-									<tr>
-										<th>Vereador</th>
-										<th>Total Faltas</th>
-									</tr>
-								</thead>
-								<tr ng-repeat="(vereador, totalFaltas)  in faltas">
-									<td>{{ vereador }}</td>
-									<td>{{ totalFaltas }}</td>
-								</tr>
-							</table>
-						</div>
-					</div>
-				</div>
-				<!--  END TAB RESUMO -->
-
 				<!-- TAB SESSÔES -->
-				<div id="sessoes" class="tab-pane fade">
+				<div id="sessoes" class="tab-pane fade in active">
 					<!-- SELECT -->
 					<div class="row">
 						<div class="col-xs-6">
@@ -120,25 +99,43 @@
 					<!-- ENDSELECT-->
 					<div class="row" ng-show="infoSessao">
 						<h4>{{ infoSessao.legislature }}, {{infoSessao.session}},
-							{{infoSessao.date}}</h4>  
-						<div class="table-responsive">
-							<table class="table table-bordered table-stripped" id="tabelaSessao">
+							{{infoSessao.date}}</h4>
+						
+						<div id="gradeSessao">
+						    <div ng-repeat="p in presencas" class="row">
+                                <div ng-repeat="(vereador, presenca) in p" class="col-lg-{{12 / totalPorLinha}}">
+                                    <div class="thumbnail presenca-sessao" ng-class="classeParaPresenca(presenca)">
+					                    <img class="img-circle" src='{{fotoVereador(vereador)}}' width='100%'  / >
+                                        <div class="caption">
+                                            <p>{{vereador}}: {{ presenca }}</p>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+					</div>
+				</div>
+				<!-- END TAB SESSÔES -->
+				<!--  TAB RESUMO -->
+				<div id="resumo" class="tab-pane fade ">
+					<div class="row" ng-show="faltas">
+						<div class="table">
+							<table class="table table-striped">
 								<thead>
 									<tr>
 										<th>Vereador</th>
-										<th>Presença?</th>
+										<th>Total Faltas</th>
 									</tr>
 								</thead>
-								<tr ng-repeat="(vereador, presenca)  in infoSessao.attendance"
-									ng-class="classeParaPresenca(presenca)">
+								<tr ng-repeat="(vereador, totalFaltas)  in faltas">
 									<td>{{ vereador }}</td>
-									<td>{{ presenca }}</td>
+									<td>{{ totalFaltas }}</td>
 								</tr>
 							</table>
 						</div>
 					</div>
 				</div>
-				<!-- END TAB SESSÔES -->
+				<!--  END TAB RESUMO -->
 			</div>
 		</div>
 	</section>

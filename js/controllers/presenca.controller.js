@@ -16,8 +16,22 @@
         }
         
         $scope.carregaInfoSessao = function() {
-                $("#tabelaSessao").fadeOut(50).fadeIn(500);
-                $scope.infoSessao = presencaService.infoSessao($scope.sessao.legislature, $scope.sessao.session)
+                $("#gradeSessao").fadeOut(50).fadeIn(500);
+                $scope.infoSessao = presencaService.infoSessao($scope.sessao.legislature, $scope.sessao.session);
+                // vamos picar os dados pra criar uma grid
+                $scope.presencas = [];
+                var i = 0, j = 0;
+                $scope.totalPorLinha = 6;
+                $.each($scope.infoSessao.attendance, function(k, v) {
+                    if(i % $scope.totalPorLinha === 0) {
+                        j++;
+                    }
+                    if(!$scope.presencas[j]) {
+                        $scope.presencas[j] = {};
+                    }
+                    $scope.presencas[j][k] = v;
+                    i++;
+                })
         }
         
         $scope.classeParaPresenca = function(presenca) {
@@ -37,6 +51,16 @@
             $scope.faltas = presencaService.faltas();
         });
         
+        $scope.fotoVereador = function(nome) {
+            var img = './images/' + nome.replace(/ /g,"_").toLowerCase() + '.jpg'; 
+            var request = new XMLHttpRequest();
+            request.open('GET', img, false);
+            request.send(); 
+            if (request.status === 404) {
+                img = './images/politico_sem_foto.png';
+            }
+            return img;
+        }
      
     }
     presencaController.$inject = ['$scope', 'PresencaService'];
