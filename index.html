@@ -104,10 +104,10 @@
 						<div id="gradeSessao">
 						    <div ng-repeat="p in presencas" class="row">
                                 <div ng-repeat="(vereador, presenca) in p" class="col-lg-{{12 / totalPorLinha}}">
-                                    <div class="thumbnail presenca-sessao" ng-class="classeParaPresenca(presenca)">
+                                    <div class="thumbnail presenca-sessao" ng-class="{'falta': presenca == 'NÃO', 'presenca': presenca == 'SIM'}">
 					                    <img class="img-circle" ng-src='{{fotoVereador(vereador)}}' width='100%'  onError="this.onerror=null;this.src='./images/politico_sem_foto.png'" / >
                                         <div class="caption">
-                                            <p>{{vereador}}: {{ presenca }}</p>
+                                            <p>{{vereador}}: <span ng-class="{'sinalizaFalta': presenca == 'NÃO', 'sinalizaPresenca': presenca == 'SIM'}">{{ presenca }}</span></p>
                                         </div>
                                     </div> 
                                 </div>
@@ -127,9 +127,9 @@
 										<th>Total Faltas</th>
 									</tr>
 								</thead>
-								<tr ng-repeat="(vereador, totalFaltas)  in faltas">
-									<td>{{ vereador }}</td>
-									<td>{{ totalFaltas }}</td>
+								<tr ng-repeat="f in faltas">
+									<td>{{ f.vereador }}</td>
+									<td>{{ f.faltas }}</td>
 								</tr>
 							</table>
 						</div>
@@ -154,7 +154,10 @@
 					<h4>Como funciona?</h4>
 				</div>
 				<div class="modal-body">
-					<p>DESCREVER COMO FUNCIONA ESSA APP</p>
+					<h4>Uma página para melhor visualizar os dados de presença dos vereadores na câmara de São José dos Campos.</h4>
+					<p>O objetivo é facilitar ao cidadão comum a informação sobre a presençã em sessões na câmara para que os eleitores possam acompanhar seus vereadores. Atualmente a página da câmara de São José dos Campos disponibiliza a informação, mas somente através de arquivos individuais que devem ser baixados no computador do usuário, alguns arquivos inclusive usam um formato proprietário (XLS). Nosso objetivo é trazer a informação de maneira mais concisa e direita, sem meios intermediários de acesso. Caso haja necessidade cabe ao eleitor agora entrar em contato com o vereador com os dados disponíveis no <a href="http://www.camarasjc.sp.gov.br/portal-da-transparencia/presenca-de-vereadores.php">site
+							da câmara</a> </p>
+					<p>Para mais informações veja nossa postagem que descreve as motiviações para criar essa página  no nosso <a href="https://medium.com/@sjcdigital">medium</a>.
 				</div>
 			</div>
 			<!-- /.modal-sobre-content -->

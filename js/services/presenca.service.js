@@ -3,12 +3,13 @@
     function presencaService($http) {
         legislaturas = [];
         dadosSessoes = [];
-        sessoes = {}
-        contagemFaltas = {}
+        sessoes = {};
+        listaFaltas = [];
         
         function loadData(success) {
             $http.get('./data/sessionAttendance.json').then(function(response) {
                 sessoes = response.data.sessionAttendance;
+                var contagemFaltas = {};
                 for(var i =0; i < sessoes.length; i++) {
                     var sessao = sessoes[i];
                     var legislatura = sessao.legislature;
@@ -16,7 +17,7 @@
                     if(!sessoes[legislatura]){
                         sessoes[legislatura] = [];
                     }
-                    sessoes[legislatura].push(sessao)
+                    sessoes[legislatura].push(sessao);
                     
                     $.each(sessao.attendance, function(k, v) {
                         if(!contagemFaltas[k]) {
@@ -29,15 +30,21 @@
                     
                 }
                 // TODO: sort sessions correctly
-                for(var i = 0; i < legislatura.length; i++){
-                    sessoes[legislatura].sort(function(a, b){
+                for(var i = 0; i < legislaturas.length; i++) {
+                    sessoes[legislaturas[i]].sort(function(a, b){
                         if(a.date < b.date) return -1;
                         if(a.date > b.date) return 1;
                         return 0;
-                    })
+                    });
                 }
+                $.each(contagemFaltas, function(k, v){
+                    listaFaltas.push({"vereador": k, "faltas": v});
+                });
+                listaFaltas.sort(function(a, b){
+                    return  b.faltas - a.faltas;
+                });
                 success();
-            })
+            });
         }
         
         function todasLegislaturas() {
@@ -60,7 +67,7 @@
         }
         
         function faltas() {
-            return contagemFaltas;
+            return listaFaltas;
         }
         
         return {
@@ -69,7 +76,7 @@
             sessaoParaLegislatura: sessaoParaLegislatura,
             infoSessao: infoSessao,
             faltas: faltas
-        }
+        };
     }
 
     presencaService.$inject = ['$http'];
