@@ -130,9 +130,9 @@
 										<th>Total Faltas</th>
 									</tr>
 								</thead>
-								<tr ng-repeat="(vereador, totalFaltas)  in faltas">
-									<td>{{ vereador }}</td>
-									<td>{{ totalFaltas }}</td>
+								<tr ng-repeat="f in faltas">
+									<td>{{ f.vereador }}</td>
+									<td>{{ f.faltas }}</td>
 								</tr>
 							</table>
 						</div>
