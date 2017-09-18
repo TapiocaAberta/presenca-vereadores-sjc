@@ -34,13 +34,6 @@
                 })
         }
         
-        $scope.classeParaPresenca = function(presenca) {
-            if(presenca === 'NÃO'){
-                return 'falta';
-            } 
-            return 'presenca';
-        }
-        
         presencaService.loadData(function() {
             $scope.legislaturas = presencaService.todasLegislaturas();
             //carrega dados iniciais
