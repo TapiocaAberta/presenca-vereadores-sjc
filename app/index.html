@@ -69,7 +69,8 @@
 			<div class="row">
 				<ul class="nav nav-pills nav-justified">
 					<li class="active" ><a href="#sessoes" data-toggle="tab">Sessões</a></li>
-					<li><a href="#resumo" data-toggle="tab">Ranking de faltas</a></li>
+					<li><a href="#resumo" data-toggle="tab">Contagem de ausência por vereador</a></li>
+					<li><a href="#faltasSessoes" data-toggle="tab">Contagem de ausência por Sessão</a></li>
 				</ul>
 			</div>
 			<br />
@@ -119,7 +120,7 @@
 					</div>
 				</div>
 				<!-- END TAB SESSÔES -->
-				<!--  TAB RESUMO -->
+				<!--  TAB FALTAS VEREADORES -->
 				<div id="resumo" class="tab-pane fade ">
 					<div class="row" ng-show="faltas">
 						<div class="table">
@@ -138,7 +139,27 @@
 						</div>
 					</div>
 				</div>
-				<!--  END TAB RESUMO -->
+				<!--  END TAB FALTAS VEREADORES -->
+				<!--  TAB FALTAS SESSOES -->
+				<div id="faltasSessoes" class="tab-pane fade ">
+					<div class="row" ng-show="faltasSessoes">
+						<div class="table">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Sessão</th>
+										<th>Total Faltas</th>
+									</tr>
+								</thead>
+								<tr ng-repeat="f in faltasSessoes">
+									<td>{{ f.sessao }}</td>
+									<td>{{ f.faltas }}</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!--  END TAB FALTAS SESSOES -->
 			</div>
 		</div>
 	</section>

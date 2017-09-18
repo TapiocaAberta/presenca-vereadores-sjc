@@ -4,27 +4,30 @@
         legislaturas = [];
         dadosSessoes = [];
         sessoes = {};
-        listaFaltas = [];
+        faltasVereadores = [];
+        faltasSessoes = [];
         
         function loadData(success) {
             $http.get('./data/sessionAttendance.json').then(function(response) {
                 sessoes = response.data.sessionAttendance;
-                var contagemFaltas = {};
+                var contagemFaltasVereadores = {}, contagemFaltasSessoes = {};
                 for(var i =0; i < sessoes.length; i++) {
                     var sessao = sessoes[i];
                     var legislatura = sessao.legislature;
+                    var chaveSessao = sessao.session + ' ( ' + sessao.date + ' )';
                     if($.inArray(legislatura, legislaturas) === -1) legislaturas.push(legislatura);
                     if(!sessoes[legislatura]){
                         sessoes[legislatura] = [];
                     }
                     sessoes[legislatura].push(sessao);
-                    
+                    contagemFaltasSessoes[chaveSessao] = 0;
                     $.each(sessao.attendance, function(k, v) {
-                        if(!contagemFaltas[k]) {
-                            contagemFaltas[k] = 0;
+                        if(!contagemFaltasVereadores[k]) {
+                            contagemFaltasVereadores[k] = 0;
                         }
                         if(v === 'NÃO') {
-                            contagemFaltas[k] += 1;
+                            contagemFaltasVereadores[k] += 1;
+                            contagemFaltasSessoes[chaveSessao] +=1;
                         }
                     });
                     
@@ -37,10 +40,18 @@
                         return 0;
                     });
                 }
-                $.each(contagemFaltas, function(k, v){
-                    listaFaltas.push({"vereador": k, "faltas": v});
+                
+                $.each(contagemFaltasVereadores, function(k, v){
+                    faltasVereadores.push({"vereador": k, "faltas": v});
                 });
-                listaFaltas.sort(function(a, b){
+                faltasVereadores.sort(function(a, b){
+                    return  b.faltas - a.faltas;
+                });
+                
+                $.each(contagemFaltasSessoes, function(k, v){
+                    faltasSessoes.push({"sessao": k, "faltas": v});
+                });
+                faltasSessoes.sort(function(a, b){
                     return  b.faltas - a.faltas;
                 });
                 success();
@@ -67,7 +78,11 @@
         }
         
         function faltas() {
-            return listaFaltas;
+            return faltasVereadores;
+        }
+        
+        function faltasEmSessoes() {
+            return faltasSessoes;
         }
         
         return {
@@ -75,7 +90,8 @@
             todasLegislaturas: todasLegislaturas,
             sessaoParaLegislatura: sessaoParaLegislatura,
             infoSessao: infoSessao,
-            faltas: faltas
+            faltas: faltas,
+            faltasEmSessoes: faltasEmSessoes
         };
     }
 

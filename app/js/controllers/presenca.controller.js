@@ -42,6 +42,7 @@
             $scope.sessao = $scope.sessoes[$scope.sessoes.length - 1];
             $scope.carregaInfoSessao();
             $scope.faltas = presencaService.faltas();
+            $scope.faltasSessoes = presencaService.faltasEmSessoes();
         });
         
         $scope.fotoVereador = function(nome) {
